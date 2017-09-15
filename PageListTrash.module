@@ -1,0 +1,58 @@
+<?php
+
+/**
+ * PageListTrash
+ *
+ * @author Robin Sallis
+ *
+ * ProcessWire 3.x
+ * Copyright (C) 2011 by Ryan Cramer
+ * Licensed under GNU/GPL v2, see LICENSE.TXT
+ *
+ * http://www.processwire.com
+ * http://www.ryancramer.com
+ *
+ */
+
+class PageListTrash extends WireData implements Module {
+
+	/**
+	 * Module information
+	 */
+	public static function getModuleInfo() {
+		return array(
+			'title' => 'Page List Trash',
+			'version' => 1,
+			'summary' => 'Allows non-superusers to trash pages directly from Page List (if they have page-delete permission for that page).',
+			'autoload' => "template=admin",
+		);
+	}
+
+	/**
+	 * Ready
+	 */
+	public function ready() {
+		if(!$this->user->isSuperuser()) {
+			$this->addHookAfter('ProcessPageListActions::getExtraActions', $this, 'addTrashButton');
+		}
+	}
+
+	/**
+	 * Add trash button
+	 */
+	public function addTrashButton($event){
+		$page = $event->arguments(0);
+		$extras = $event->return;
+		if($page->trashable()) {
+			$trash_icon = "<i class='fa fa-trash-o'></i>&nbsp;";
+			$extras['trash'] = array(
+				'cn'   => 'Trash',
+				'name' => $trash_icon . $this->_('Trash'),
+				'url'  => $this->config->urls->admin . "page/?action=trash&id=$page->id",
+				'ajax' => true
+			);
+		}
+		$event->return = $extras;
+	}
+
+}
