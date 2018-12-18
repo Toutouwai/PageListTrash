@@ -22,9 +22,12 @@ class PageListTrash extends WireData implements Module {
 	public static function getModuleInfo() {
 		return array(
 			'title' => 'Page List Trash',
-			'version' => 1,
 			'summary' => 'Allows non-superusers to trash pages directly from Page List (if they have page-delete permission for that page).',
-			'autoload' => "template=admin",
+			'version' => '0.1.1',
+			'author' => 'Robin Sallis',
+			'href' => 'https://github.com/Toutouwai/PageListTrash',
+			'icon' => 'trash-o',
+			'autoload' => 'template=admin',
 		);
 	}
 
@@ -39,8 +42,10 @@ class PageListTrash extends WireData implements Module {
 
 	/**
 	 * Add trash button
+	 *
+	 * @param HookEvent $event
 	 */
-	public function addTrashButton($event){
+	public function addTrashButton(HookEvent $event){
 		$page = $event->arguments(0);
 		$extras = $event->return;
 		if($page->trashable()) {
