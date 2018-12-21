@@ -1,5 +1,9 @@
 # PageListTrash
 
+Update: since [PW v3.0.107](https://processwire.com/blog/posts/processwire-3.0.107-core-updates/#trash-for-all) this feature has been added to the core.
+
+---
+
 Allows non-superusers to trash pages directly from Page List (if they have page-delete permission for that page).
 
 Not much to say really - the module adds a "Trash" option to the extra actions for pages in Page List. It looks and works just like the Trash action available to superusers.
